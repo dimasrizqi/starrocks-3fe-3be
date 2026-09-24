@@ -15,7 +15,7 @@ services:
     environment:
       - HOST_TYPE=FQDN
       - TZ=Asia/Jakarta
-#      - MYSQL_PWD=kopiSusu$12
+#      - MYSQL_PWD=
     ports:
       - "1030:8030"
       - "2020:9020"
@@ -37,7 +37,7 @@ services:
     environment:
       - HOST_TYPE=FQDN
       - TZ=Asia/Jakarta
-#      - MYSQL_PWD=kopiSusu$12
+#      - MYSQL_PWD=
     depends_on:
       - starrocks-fe-0
     ports:
@@ -61,7 +61,7 @@ services:
     environment:
       - HOST_TYPE=FQDN
       - TZ=Asia/Jakarta
-#      - MYSQL_PWD=kopiSusu$12
+#      - MYSQL_PWD=
     depends_on:
       - starrocks-fe-0
     ports:
@@ -88,7 +88,7 @@ services:
     environment:
       - HOST_TYPE=FQDN
       - TZ=Asia/Jakarta
-#      - MYSQL_PWD=kopiSusu$12
+#      - MYSQL_PWD=
     depends_on:
       - starrocks-fe-0
     volumes:
@@ -108,7 +108,7 @@ services:
     environment:
       - HOST_TYPE=FQDN
       - TZ=Asia/Jakarta
-#      - MYSQL_PWD=kopiSusu$12
+#      - MYSQL_PWD=
     depends_on:
       - starrocks-fe-0
     volumes:
@@ -128,7 +128,7 @@ services:
     environment:
       - HOST_TYPE=FQDN
       - TZ=Asia/Jakarta
-#      - MYSQL_PWD=kopiSusu$12
+#      - MYSQL_PWD=
     depends_on:
       - starrocks-fe-0
     volumes:
