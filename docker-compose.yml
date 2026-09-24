@@ -1,0 +1,152 @@
+services:
+  # ========================
+  # FE (3 nodes)
+  # ========================
+  starrocks-fe-0:
+    image: starrocks/fe-ubuntu:4.0-latest
+    hostname: starrocks-fe-0
+    restart: always
+    container_name: starrocks-fe-0
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/starrocks/fe_entrypoint.sh starrocks-fe-0
+    environment:
+      - HOST_TYPE=FQDN
+      - TZ=Asia/Jakarta
+#      - MYSQL_PWD=kopiSusu$12
+    ports:
+      - "1030:8030"
+      - "2020:9020"
+      - "3030:9030"
+    volumes:
+      - 1fe3be_fe0_data:/opt/starrocks/fe/meta
+      - 1fe3be_fe0_log:/opt/starrocks/fe/log
+
+  starrocks-fe-1:
+    image: starrocks/fe-ubuntu:4.0-latest
+    hostname: starrocks-fe-1
+    restart: always
+    container_name: starrocks-fe-1
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/starrocks/fe_entrypoint.sh starrocks-fe-0
+    environment:
+      - HOST_TYPE=FQDN
+      - TZ=Asia/Jakarta
+#      - MYSQL_PWD=kopiSusu$12
+    depends_on:
+      - starrocks-fe-0
+    ports:
+      - "1031:8030"
+      - "2021:9020"
+      - "3031:9030"
+    volumes:
+      - 3fe3be_fe1_data:/opt/starrocks/fe/meta
+      - 3fe3be_fe1_log:/opt/starrocks/fe/log
+
+  starrocks-fe-2:
+    image: starrocks/fe-ubuntu:4.0-latest
+    hostname: starrocks-fe-2
+    restart: always
+    container_name: starrocks-fe-2
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/starrocks/fe_entrypoint.sh starrocks-fe-0
+    environment:
+      - HOST_TYPE=FQDN
+      - TZ=Asia/Jakarta
+#      - MYSQL_PWD=kopiSusu$12
+    depends_on:
+      - starrocks-fe-0
+    ports:
+      - "1032:8030"
+      - "2022:9020"
+      - "3032:9030"
+    volumes:
+      - 3fe3be_fe2_data:/opt/starrocks/fe/meta
+      - 3fe3be_fe2_log:/opt/starrocks/fe/log
+
+  # ========================
+  # BE (3 nodes)
+  # ========================
+  starrocks-be-0:
+    image: starrocks/be-ubuntu:4.0-latest
+    hostname: starrocks-be-0
+    container_name: starrocks-be-0
+    restart: always
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/starrocks/be_entrypoint.sh starrocks-fe-0
+    environment:
+      - HOST_TYPE=FQDN
+      - TZ=Asia/Jakarta
+#      - MYSQL_PWD=kopiSusu$12
+    depends_on:
+      - starrocks-fe-0
+    volumes:
+      - 1fe3be_be0_data:/opt/starrocks/be/storage
+      - 3fe3be_be0_log:/opt/starrocks/be/log
+
+  starrocks-be-1:
+    image: starrocks/be-ubuntu:4.0-latest
+    hostname: starrocks-be-1
+    restart: always
+    container_name: starrocks-be-1
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/starrocks/be_entrypoint.sh starrocks-fe-0
+    environment:
+      - HOST_TYPE=FQDN
+      - TZ=Asia/Jakarta
+#      - MYSQL_PWD=kopiSusu$12
+    depends_on:
+      - starrocks-fe-0
+    volumes:
+      - 1fe3be_be1_data:/opt/starrocks/be/storage
+      - 3fe3be_be1_log:/opt/starrocks/be/log
+
+  starrocks-be-2:
+    image: starrocks/be-ubuntu:4.0-latest
+    hostname: starrocks-be-2
+    container_name: starrocks-be-2
+    restart: always
+    command:
+      - /bin/bash
+      - -c
+      - |
+        /opt/starrocks/be_entrypoint.sh starrocks-fe-0
+    environment:
+      - HOST_TYPE=FQDN
+      - TZ=Asia/Jakarta
+#      - MYSQL_PWD=kopiSusu$12
+    depends_on:
+      - starrocks-fe-0
+    volumes:
+      - 1fe3be_be2_data:/opt/starrocks/be/storage
+      - 3fe3be_be2_log:/opt/starrocks/be/log
+
+volumes:
+  # FE volumes
+  1fe3be_fe0_data:
+  1fe3be_fe0_log:
+  3fe3be_fe1_data:
+  3fe3be_fe1_log:
+  3fe3be_fe2_data:
+  3fe3be_fe2_log:
+  # BE volumes
+  1fe3be_be0_data:
+  1fe3be_be1_data:
+  1fe3be_be2_data:
+  3fe3be_be0_log:
+  3fe3be_be1_log:
+  3fe3be_be2_log:
